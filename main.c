@@ -125,7 +125,7 @@ int main() {
 	"in vec3 vPos;\n"
 	"out vec4 FragColor;\n"
 	"void main() {\n"
-	"vec4 ambient = 0.01 * l_color;\n"
+	"vec4 ambient = 0.1 * l_color;\n"
 	"vec3 norm = normalize(normal);\n"
 	"vec3 lightDir = (normalize(l_pos -FragPos));\n"
 	"float diff = max(dot(norm, lightDir), 0.0);\n"
