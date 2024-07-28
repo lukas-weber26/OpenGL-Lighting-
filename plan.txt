@@ -1,0 +1,4 @@
+The plan: 
+-Clean up the current lighting code. Swap to only using a single cube.
+-Once complete, make the last couple of lighting models work.
+-This should be realtively straight forward. Basically two of them really exclusively on a texture (this is good texture loading practice.) The other two simply add three eqauations. One for taking an input vector insead of a position (trivial), one for including a distance measurement (theoreticall trivial) and one for an additional angle based smoothing (more difficult but not fundamentally different from what you have done.)

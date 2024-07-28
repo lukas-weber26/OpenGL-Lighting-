@@ -125,7 +125,7 @@ int main() {
 	"in vec3 vPos;\n"
 	"out vec4 FragColor;\n"
 	"void main() {\n"
-	"vec4 ambient = 0.01 * l_color;\n"
+	"vec4 ambient = 0.1 * l_color;\n"
 	"vec3 norm = normalize(normal);\n"
 	"vec3 lightDir = (normalize(l_pos -FragPos));\n"
 	"float diff = max(dot(norm, lightDir), 0.0);\n"
@@ -135,10 +135,9 @@ int main() {
 	"vec3 viewDir = normalize(vPos- FragPos);\n"
 	"vec3 reflectDir = reflect(lightDir, norm);\n"
 	"float spec = pow(max(dot(viewDir, reflectDir), 0.0) , 32);\n"
-	"float angle_modifier = max(1/(1+pow(2, - 20 * (diff - 0.9))),0);\n"
-	"vec4 specular = 2* angle_modifier * attenuation * spec * l_color;\n"
+	"vec4 specular = 1 * attenuation * spec * l_color;\n"
 
-	"FragColor = vec4((angle_modifier * diffuse.xyz + ambient.xyz + specular.xyz) * material_color.xyz,1);}\0";
+	"FragColor = vec4((diffuse.xyz + ambient.xyz + specular.xyz) * material_color.xyz,1);}\0";
 
 	unsigned int vertex_shader  = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex_shader  , 1, &vertex_shader_source, NULL);
@@ -178,6 +177,7 @@ int main() {
 	int view_pos_loc = glGetUniformLocation(shader_program,"view_pos");
 
 	glEnable(GL_DEPTH_TEST);
+	float c = 100;
 
 	while (!glfwWindowShouldClose(window)) {
 		render_loop_start(window);
@@ -191,10 +191,12 @@ int main() {
 		glUniformMatrix4fv(translate_loc,1,GL_FALSE, (float *)identity);
 		glUniform4f(color_loc, 0.0,0.2,0.6,0.8);
 		glUniform4f(light_loc, 1,1,1,1.0);
-		glUniform3f(light_pos_loc, 0, 0, 1);
+		glUniform3f(light_pos_loc, 0, 0, 1 + c);
 		glUniform3fv(view_pos_loc, 3, (float *) eye);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
+		c -= 0.1;
+
 		render_loop_end(window);
 	}
 }
